@@ -1,10 +1,9 @@
-// manifest.json
 {
   "manifest_version": 3,
   "name": "Ad Blocker",
-  "version": "1.0",
+  "version": "2.0",
   "description": "광고 차단을 위한 익스텐션",
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "scripting", "webRequest", "webRequestBlocking"],
   "host_permissions": ["<all_urls>"],
   "action": {
     "default_popup": "popup.html"
@@ -12,8 +11,11 @@
   "background": {
     "service_worker": "background.js"
   },
-  "content_scripts": [{
-    "matches": ["<all_urls>"],
-    "js": ["content.js"]
-  }]
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
 }
