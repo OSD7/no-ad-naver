@@ -6,7 +6,6 @@ app = Flask(__name__)
 
 # 광고 패턴을 차단하는 함수
 def block_ads(html_content):
-    # 광고 패턴 정의 (예시)
     ad_patterns = [
         r"<!--\s*ad\s*-->",
         r"class\s*=\s*['\"]?ad['\"]?",
@@ -22,8 +21,8 @@ def block_ads(html_content):
         r"m\.naver\.com###mflick > div\.eg-flick-container > div\.flick-panel\.eg-flick-panel:last-child > div\.wrap\.id_shopping > div\.grid1_wrap\.brick-house:first-child > div\.brick-vowel:first-child > div\.grid1\.id_cui_shop_trend\.MM_REFRESH_BOX\.MM_TREND_SHOP:nth-child(3)",
         r"m\.naver\.com###mflick > div\.eg-flick-container > div\.flick-panel\.eg-flick-panel:last-child > div\.wrap\.id_shopping > div\.grid1_wrap\.brick-house:first-child > div\.brick-vowel:first-child > div\.grid1\.id_cui_banner:nth-child(5)",
         r"m\.naver\.com###_MM_REGION_TAB > div\.cp_alarm_area:last-child"
-        
     ]
+
 
     # 정규표현식을 사용하여 광고를 찾고 제거합니다.
     for pattern in ad_patterns:
