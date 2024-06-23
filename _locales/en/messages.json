@@ -1,0 +1,10 @@
+{
+  "extensionName": {
+    "message": "Ad Blocker",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "A custom ad blocker extension.",
+    "description": "Extension description"
+  }
+}

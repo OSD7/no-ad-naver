@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>광고 차단기 설정</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="tabs">
+    <button class="tab-link" data-tab="filters">필터 목록</button>
+    <button class="tab-link" data-tab="user-rules">사용자 규칙</button>
+    <button class="tab-link" data-tab="exceptions">제외 목록</button>
+    <button class="tab-link" data-tab="language">언어 설정</button>
+  </div>
+
+  <div id="filters" class="tab-content">
+    <h2>필터 목록</h2>
+    <input type="file" id="filterFileInput">
+    <button id="addFilterButton">필터 추가</button>
+    <ul id="filterList"></ul>
+  </div>
+
+  <div id="user-rules" class="tab-content">
+    <h2>사용자 규칙</h2>
+    <textarea id="userFilterInput" placeholder="사용자 필터를 여기에 입력하세요"></textarea>
+    <button id="addUserFilterButton">필터 추가</button>
+    <ul id="userFilterList"></ul>
+  </div>
+
+  <div id="exceptions" class="tab-content">
+    <h2>제외 목록</h2>
+    <input type="text" id="whitelistInput" placeholder="사이트 추가 (예: example.com)">
+    <button id="addWhitelistButton">추가</button>
+    <ul id="whitelistUrls"></ul>
+  </div>
+
+  <div id="language" class="tab-content">
+    <h2>언어 설정</h2>
+    <select id="languageSelect">
+      <option value="ko">한국어</option>
+      <option value="en">English</option>
+    </select>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

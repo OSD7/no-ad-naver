@@ -1,0 +1,38 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+}
+
+.tab-link {
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.tab-link.active {
+  border-bottom: 2px solid #007BFF;
+}
+
+.tab-content {
+  display: none;
+  padding: 20px;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+#filterList, #userFilterList, #whitelistUrls {
+  list-style: none;
+  padding: 0;
+}
+
+#filterList li, #userFilterList li, #whitelistUrls li {
+  padding: 5px 0;
+}

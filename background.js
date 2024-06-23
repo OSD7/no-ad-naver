@@ -1,59 +1,112 @@
-// background.js
+const filterFiles = [
+  'filters/easylist.txt',
+  'filters/easyprivacy.txt',
+  'filters/adguard_filters.txt'
+];
 
-console.log("Service worker is running.");
+const filterLists = [
+  "https://easylist.to/easylist/easylist.txt",
+  "https://easylist.to/easylist/easyprivacy.txt",
+  "https://filters.adtidy.org/extension/chromium/filters/2.txt",
+  "https://filters.adtidy.org/extension/chromium/filters/3.txt",
+  "https://filters.adtidy.org/extension/chromium/filters/14.txt",
+  "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters.txt",
+  "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-2020.txt",
+  "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplus&showintro=1",
+  "https://raw.githubusercontent.com/uBlockOrigin/uAssets/0aed10a3ad213d629d8113f6c64b5497871c1653/filters/annoyances-cookies.txt",
+  "https://raw.githubusercontent.com/uBlockOrigin/uAssets/0aed10a3ad213d629d8113f6c64b5497871c1653/filters/annoyances-others.txt",
+  "https://raw.githubusercontent.com/uBlockOrigin/uAssets/0aed10a3ad213d629d8113f6c64b5497871c1653/filters/badware.txt",
+  "https://raw.githubusercontent.com/uBlockOrigin/uAssets/0aed10a3ad213d629d8113f6c64b5497871c1653/filters/filters-2021.txt",
+  "https://raw.githubusercontent.com/uBlockOrigin/uAssets/0aed10a3ad213d629d8113f6c64b5497871c1653/filters/filters-2022.txt",
+  "https://raw.githubusercontent.com/uBlockOrigin/uAssets/0aed10a3ad213d629d8113f6c64b5497871c1653/filters/filters-2023.txt",
+  "https://raw.githubusercontent.com/uBlockOrigin/uAssets/0aed10a3ad213d629d8113f6c64b5497871c1653/filters/filters-2024.txt",
+  "https://raw.githubusercontent.com/uBlockOrigin/uAssets/0aed10a3ad213d629d8113f6c64b5497871c1653/filters/filters-mobile.txt",
+  "https://raw.github.com/reek/anti-adblock-killer/master/anti-adblock-killer-filters.txt",
+  "https://easylist-downloads.adblockplus.org/abp-filters-anti-cv.txt",
+  "https://easylist-msie.adblockplus.org/abp-filters-anti-cv.txt",
+  "https://raw.githubusercontent.com/abp-filters/abp-filters-anti-cv/master/english.txt",
+  "https://raw.githubusercontent.com/k2jp/abp-japanese-filters/master/abpjf.txt",
+  "https://www.joinhoney.com/whitelist/honey-smart-shopping.txt",
+  "https://gitlab.com/malware-filter/urlhaus-filter.git"
+];
 
-// 파이썬 서버 URL
-const SERVER_URL = 'http://localhost:5000'; 
+let blockRules = [];
+let userFilters = [];
+let userRules = [];
+let whitelist = [];
+let isEnabled = true;
+let blockJavaScript = false;
+let blockPopups = false;
 
-// 서버 종료 요청 보내는 함수
-function stopServer() {
-    fetch(`${SERVER_URL}/shutdown`)
-        .then(response => {
-            if (response.ok) {
-                console.log('서버 종료 요청이 성공적으로 전송되었습니다.');
-            } else {
-                console.error('서버 종료 요청에 실패했습니다.');
-            }
-        })
-        .catch(error => {
-            console.error('서버 종료 요청에 실패했습니다.', error);
-        });
+chrome.runtime.onInstalled.addListener(() => {
+  console.log('광고 차단기가 설치되었습니다.');
+  loadFilters();
+  loadUserSettings();
+});
+
+chrome.runtime.onStartup.addListener(() => {
+  loadFilters();
+  loadUserSettings();
+});
+
+function loadFilters() {
+  // 로컬 파일 필터 로드
+  filterFiles.forEach(file => {
+    fetch(chrome.runtime.getURL(file))
+      .then(response => response.text())
+      .then(text => {
+        const rules = parseRules(text);
+        blockRules = blockRules.concat(rules);
+      })
+      .catch(error => console.error('Error loading local filter:', error));
+  });
+
+  // 외부 URL 필터 로드
+  filterLists.forEach(url => {
+    fetch(url)
+      .then(response => response.text())
+      .then(data => {
+        const rules = parseRules(data);
+        blockRules = blockRules.concat(rules);
+      })
+      .catch(error => console.error('Error loading external filter:', error));
+  });
 }
 
-// 익스텐션이 설치될 때와 비활성화될 때의 처리
-chrome.runtime.onInstalled.addListener(() => {
-    console.log("Service worker is installed.");
-});
+function parseRules(text) {
+  return text.split('\n').filter(line => isValidRule(line));
+}
 
-chrome.runtime.onSuspend.addListener(() => {
-    stopServer();
-});
+function isValidRule(line) {
+  return line && !line.startsWith('!') && !line.startsWith('[');
+}
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === 'fetchAndCleanHTML') {
-        fetch('http://localhost:5000/block_ads', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ html_content: message.htmlContent })
-        })
-        .then(response => response.json())
-        .then(data => {
-            sendResponse({ cleanedContent: data.cleaned_content });
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-        return true; // indicates async response
-    } else if (message.action === 'toggleExtension') {
-        // 익스텐션의 활성화 상태 변경
-        console.log('Extension is now', message.enabled ? 'enabled' : 'disabled');
-        // 활성화 상태에 따른 작업 수행
-        if (message.enabled) {
-            // 익스텐션 활성화될 때의 동작
-        } else {
-            // 익스텐션 비활성화될 때의 동작
-        }
-    }
-});
+function loadUserSettings() {
+  chrome.storage.sync.get(['userFilters', 'userRules', 'whitelist', 'isEnabled', 'blockJavaScript', 'blockPopups'], (data) => {
+    userFilters = data.userFilters || [];
+    userRules = data.userRules || [];
+    whitelist = data.whitelist || [];
+    isEnabled = data.isEnabled !== undefined ? data.isEnabled : true;
+    blockJavaScript = data.blockJavaScript || false;
+    blockPopups = data.blockPopups || false;
+  });
+}
+
+chrome.webRequest.onBeforeRequest.addListener(
+  (details) => {
+    if (!isEnabled) return { cancel: false };
+    const url = details.url;
+    return { cancel: shouldBlockRequest(url, details.type) };
+  },
+  { urls: ["<all_urls>"] },
+  ["blocking"]
+);
+
+function shouldBlockRequest(url, type) {
+  if (whitelist.some(item => url.includes(item))) return false;
+  if (userFilters.some(item => url.includes(item))) return true;
+  if (blockJavaScript && type === "script") return true;
+  return blockRules.some(rule => url.includes(rule));
+}
+
+setInterval(loadFilters, 24 * 60 * 60 * 1000);  // 필터를 매 24시간마다 업데이트

@@ -1,0 +1,10 @@
+{
+  "extensionName": {
+    "message": "광고 차단기",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "사용자 정의 광고 차단기 확장 프로그램입니다.",
+    "description": "Extension description"
+  }
+}
