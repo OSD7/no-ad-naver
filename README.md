@@ -22,7 +22,7 @@
 ## 라이센스
 ### GNU General Public License
 
-### 참고 및 사용
+#### 참고 및 사용
 uBlock, uAssets, urlhaus-filter, easylist, easyprivacy, adguard_filters, adservers 등
 
 ---
