@@ -1,9 +1,10 @@
+  // 로컬 필터 불러오기(설치파일 filters 폴더)
 const filterFiles = [
   'filters/easylist.txt',
   'filters/easyprivacy.txt',
   'filters/adguard_filters.txt'
 ];
-
+  // 인터넷 상 필터 불러오기(url)
 const filterLists = [
   "https://easylist.to/easylist/easylist.txt",
   "https://easylist.to/easylist/easyprivacy.txt",
