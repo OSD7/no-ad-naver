@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function setLanguage() {
     const language = document.getElementById('languageSelect').value;
     chrome.storage.sync.set({ language: language });
-    // 필요 시 페이지를 다시 로드하거나, 메시지를 보내서 즉시 반영할 수 있습니다.
+    // 필요 시 페이지를 다시 로드하거나, 메시지를 보내서 즉시 반영할 수 있음.
   }
 
   function addFilterToList(filter) {

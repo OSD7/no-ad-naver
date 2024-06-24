@@ -1,10 +1,10 @@
 {
   "extensionName": {
-    "message": "Ad Blocker",
+    "message": "JE adBlocker",
     "description": "Extension name"
   },
   "extensionDescription": {
-    "message": "A custom ad blocker extension.",
+    "message": "Ublock-based ad blocking extension",
     "description": "Extension description"
   }
 }

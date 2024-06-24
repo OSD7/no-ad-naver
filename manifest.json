@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Ad Blocker",
+  "name": "JE adBlocker",
   "version": "1.0",
-  "description": "A custom ad blocker extension.",
+  "description": "Ublock-based ad blocking extension",
   "permissions": [
     "storage",
     "webRequest",

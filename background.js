@@ -39,7 +39,7 @@ let blockJavaScript = false;
 let blockPopups = false;
 
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('광고 차단기가 설치되었습니다.');
+  console.log('익스텐션이 설치되었습니다.');
   loadFilters();
   loadUserSettings();
 });
@@ -50,7 +50,7 @@ chrome.runtime.onStartup.addListener(() => {
 });
 
 function loadFilters() {
-  // 로컬 파일 필터 로드
+  // 로컬 파일 사용 필터 불러오기
   filterFiles.forEach(file => {
     fetch(chrome.runtime.getURL(file))
       .then(response => response.text())
@@ -61,7 +61,7 @@ function loadFilters() {
       .catch(error => console.error('Error loading local filter:', error));
   });
 
-  // 외부 URL 필터 로드
+  // 외부 URL 사용 필터 불러오기
   filterLists.forEach(url => {
     fetch(url)
       .then(response => response.text())
@@ -109,4 +109,4 @@ function shouldBlockRequest(url, type) {
   return blockRules.some(rule => url.includes(rule));
 }
 
-setInterval(loadFilters, 24 * 60 * 60 * 1000);  // 필터를 매 24시간마다 업데이트
+setInterval(loadFilters, 24 * 60 * 60 * 1000);  // 매 24시간마다 필터 업데이트
