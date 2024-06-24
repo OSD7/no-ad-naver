@@ -27,7 +27,7 @@ const filterLists = [
   "https://raw.githubusercontent.com/abp-filters/abp-filters-anti-cv/master/english.txt",
   "https://raw.githubusercontent.com/k2jp/abp-japanese-filters/master/abpjf.txt",
   "https://www.joinhoney.com/whitelist/honey-smart-shopping.txt",
-  "https://gitlab.com/malware-filter/urlhaus-filter.git"
+  "https://gitlab.com/malware-filter/urlhaus-filter/-/raw/master/urlhaus-filter.txt"
 ];
 
 let blockRules = [];
