@@ -1,4 +1,6 @@
-웹페이지 광고 차단 크롬익스텐션입니다.
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=BDBDC8&height=150&section=header&text="웹페이지 광고 차단 크롬익스텐션입니다."&fontSize=24"" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=BDBDC8&height=150&section=footer&text=텍스트&fontSize=텍스트크기"" />
 구글/네이버 기반 배너 및 팝업 광고를 차단합니다. (개발 중)
 필터를 직접 추가해 사용할 수 있습니다.
 사용자가 직접 광고를 차단할 수 있습니다. (개발 중)
